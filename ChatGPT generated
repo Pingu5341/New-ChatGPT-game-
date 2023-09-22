@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatGPT</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="game.js"></script>
+</head>
+<body>
+    <div id="game-container"></div>
+</body>
+</html>
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
+app.use(express.static(__dirname + '/public'));
+
+io.on('connection', (socket) => {
+    console.log('Player connected: ' + socket.id);
+
+    // Handle player movements, game logic, etc.
+
+    socket.on('disconnect', () => {
+        console.log('Player disconnected: ' + socket.id);
+    });
+});
+
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
